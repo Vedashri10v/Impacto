@@ -1,0 +1,142 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║         ARDUINO ACCIDENT ALERT SYSTEM - QUICK START              ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+📋 HARDWARE CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Arduino Uno/Nano/Mega
+□ FSR (Force Sensitive Resistor)
+□ HC-05 Bluetooth Module
+□ 10KΩ resistor (for FSR)
+□ 1KΩ resistor (for voltage divider)
+□ 2KΩ resistor (for voltage divider)
+□ Breadboard
+□ Jumper wires
+□ USB cable
+
+🔌 WIRING (5 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FSR Sensor:
+  □ FSR Leg 1 → Arduino 5V
+  □ FSR Leg 2 → Arduino A0 + 10KΩ resistor to GND
+
+HC-05 Bluetooth:
+  □ VCC → Arduino 5V
+  □ GND → Arduino GND
+  □ TX  → Arduino Pin 10
+  □ RX  → Voltage Divider → Arduino Pin 11
+
+Voltage Divider (IMPORTANT!):
+  □ Pin 11 → 1KΩ → HC-05 RX
+  □ HC-05 RX → 2KΩ → GND
+
+💻 SOFTWARE SETUP (5 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Arduino:
+  □ Open arduino_fsr_hc05.ino in Arduino IDE
+  □ Select board (Tools → Board)
+  □ Select port (Tools → Port)
+  □ Click Upload
+  □ Open Serial Monitor (9600 baud)
+  □ Verify "System ready!" message
+
+Bluetooth:
+  □ Windows Settings → Bluetooth & devices
+  □ Add device → Bluetooth
+  □ Select "HC-05"
+  □ Enter PIN: 1234 or 0000
+  □ Note COM port (Device Manager)
+
+Server:
+  □ Open terminal in project folder
+  □ Run: npm install
+  □ Run: npm start
+  □ Verify "Bluetooth: Listening for HC-05..."
+
+🌐 WEB INTERFACES (2 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Open browser: http://localhost:3000 (Site 1)
+□ Open new tab: http://localhost:3000/site2 (Site 2)
+□ Verify "Bluetooth: Connected" on Site 1
+□ Verify "Monitoring for Alerts..." on Site 2
+
+🧪 TESTING (3 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Test without Arduino:
+  □ Click "Test Emergency Alert" on Site 1
+  □ Popup appears with 60-second countdown
+  □ Click YES or wait for timeout
+  □ Site 2 shows emergency alert
+
+Test with Arduino:
+  □ Press FSR sensor firmly
+  □ Popup appears on Site 1
+  □ Click YES or NO
+  □ Site 2 receives alert (if YES)
+
+✅ VERIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Arduino Serial Monitor shows FSR values
+□ HC-05 LED is blinking
+□ Server shows "Connected to HC-05"
+□ Site 1 shows all status cards green
+□ Site 2 is monitoring
+□ Test button works
+□ FSR press triggers popup
+□ Alert reaches Site 2
+
+🐛 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: HC-05 not found
+  → Check if paired in Windows Bluetooth settings
+  → Verify COM port in Device Manager
+  → Check HC-05 power (LED should blink)
+
+Problem: FSR not triggering
+  → Check wiring connections
+  → Lower THRESHOLD in Arduino code
+  → Test with Serial Monitor
+
+Problem: Site 2 not receiving alerts
+  → Verify both sites are open
+  → Check browser console (F12)
+  → Verify WebSocket connection
+
+Problem: npm install fails
+  → Try: npm install --legacy-peer-deps
+  → Or: npm install serialport --build-from-source
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ INDEX.md - Documentation index
+□ README.md - Complete documentation
+□ SETUP-GUIDE.md - Detailed setup steps
+□ WIRING-DIAGRAM.md - Hardware connections
+□ TROUBLESHOOTING.md - Common issues
+□ SYSTEM-DIAGRAM.md - Architecture diagrams
+□ PROJECT-SUMMARY.md - Project overview
+
+🎯 QUICK COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Install:     npm install
+Start:       npm start
+Quick Start: START.bat (Windows)
+Test:        Click "Test Emergency Alert" button
+
+📞 NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Check TROUBLESHOOTING.md
+2. Verify WIRING-DIAGRAM.md
+3. Review SETUP-GUIDE.md
+4. Check Serial Monitor output
+5. Check browser console (F12)
+
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║              TOTAL SETUP TIME: ~15 MINUTES                        ║
+║                                                                   ║
+║         Start with SETUP-GUIDE.md for detailed steps!            ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝

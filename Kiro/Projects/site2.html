@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Waiting State -->
+    <div id="waiting-screen" class="waiting-container">
+        <div class="waiting-content">
+            <div class="loader"></div>
+            <h1>Emergency Monitor - Site 2</h1>
+            <h2>🔍 Monitoring for Alerts...</h2>
+            <p class="status-line">Status: <span id="monitor-status">Waiting for emergency signals</span></p>
+            <p class="info-line">This page will automatically display an alert when Site 1 reports an emergency.</p>
+            <div class="pulse-indicator"></div>
+        </div>
+    </div>
+
+    <!-- Emergency Alert State -->
+    <div id="alert-screen" class="alert-container">
+        <div class="alert-content">
+            <div class="alert-icon">🚨</div>
+            <h1 class="alert-title">ACCIDENT DETECTED</h1>
+            <div class="alert-box">
+                <h2>HELP REQUIRED</h2>
+                <p>An accident has been reported!</p>
+                <p>Emergency services have been notified.</p>
+                <p>Medical assistance is on the way.</p>
+                <p class="alert-time">Alert received at: <span id="alert-time"></span></p>
+            </div>
+            <div class="alert-footer">
+                <p>⚠️ This alert cannot be dismissed</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="site2.js"></script>
+</body>
+</html>

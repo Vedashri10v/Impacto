@@ -1,0 +1,12 @@
+{
+  "name": "emergency-alert-system",
+  "version": "1.0.0",
+  "description": "Emergency Alert System with two websites: 1-minute timer popup and immediate alert",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js",
+    "dev": "node serve.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

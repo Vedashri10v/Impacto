@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test localStorage Communication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .box {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #00b4d8;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .trigger-btn {
+            background: #ff3333;
+            color: white;
+        }
+        .clear-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .check-btn {
+            background: #00b4d8;
+            color: white;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 180, 216, 0.2);
+            border-radius: 5px;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test localStorage Communication</h1>
+    
+    <div class="box">
+        <h2>Step 1: Test localStorage</h2>
+        <p>Click this button to simulate what Website 1 does:</p>
+        <button class="trigger-btn" onclick="triggerEmergency()">Trigger Emergency (Set localStorage)</button>
+        <button class="clear-btn" onclick="clearEmergency()">Clear Emergency</button>
+        <button class="check-btn" onclick="checkStatus()">Check Status</button>
+        
+        <div id="status"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 2: Open Website 2</h2>
+        <p>After clicking "Trigger Emergency" above, open <strong>website2.html</strong> in another tab.</p>
+        <p>Website 2 should show the emergency alert!</p>
+    </div>
+    
+    <div class="box">
+        <h2>Console Output</h2>
+        <p>Open browser console (F12) to see detailed logs.</p>
+        <p>You should see localStorage values being set and read.</p>
+    </div>
+
+    <script>
+        function triggerEmergency() {
+            console.log('🚨 Triggering emergency...');
+            localStorage.setItem('emergencyActive', 'true');
+            localStorage.setItem('emergencyTime', new Date().toISOString());
+            localStorage.setItem('emergencyReason', 'Test emergency from test page');
+            
+            console.log('localStorage.emergencyActive =', localStorage.getItem('emergencyActive'));
+            console.log('localStorage.emergencyTime =', localStorage.getItem('emergencyTime'));
+            
+            document.getElementById('status').innerHTML = 
+                '<span class="success">✅ Emergency triggered! localStorage set.</span><br>' +
+                'emergencyActive: ' + localStorage.getItem('emergencyActive') + '<br>' +
+                'emergencyTime: ' + localStorage.getItem('emergencyTime') + '<br><br>' +
+                '<strong>Now open website2.html in another tab to see the alert!</strong>';
+        }
+        
+        function clearEmergency() {
+            console.log('Clearing emergency...');
+            localStorage.removeItem('emergencyActive');
+            localStorage.removeItem('emergencyTime');
+            localStorage.removeItem('emergencyReason');
+            
+            document.getElementById('status').innerHTML = 
+                '<span class="success">✅ Emergency cleared!</span>';
+        }
+        
+        function checkStatus() {
+            const active = localStorage.getItem('emergencyActive');
+            const time = localStorage.getItem('emergencyTime');
+            
+            console.log('Checking status...');
+            console.log('emergencyActive:', active);
+            console.log('emergencyTime:', time);
+            
+            if (active === 'true') {
+                document.getElementById('status').innerHTML = 
+                    '<span class="error">🚨 Emergency is ACTIVE</span><br>' +
+                    'emergencyActive: ' + active + '<br>' +
+                    'emergencyTime: ' + time;
+            } else {
+                document.getElementById('status').innerHTML = 
+                    '<span class="success">✅ No emergency active</span><br>' +
+                    'emergencyActive: ' + active;
+            }
+        }
+        
+        // Check status on load
+        window.addEventListener('load', function() {
+            console.log('Test page loaded');
+            checkStatus();
+        });
+    </script>
+</body>
+</html>

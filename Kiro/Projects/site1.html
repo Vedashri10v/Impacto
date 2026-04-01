@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Detection System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-content">
+        <h1>Emergency Detection System - Site 1</h1>
+        <div class="info-box">
+            <p>This page monitors for potential accidents.</p>
+            <p>A popup will appear asking if you need medical assistance.</p>
+        </div>
+        
+        <div class="timer-display">
+            <h3>Timer Status</h3>
+            <p id="timer-text">Waiting...</p>
+            <p id="status-text">System ready</p>
+        </div>
+    </div>
+
+    <!-- Emergency Question Popup -->
+    <div id="question-popup" class="popup-overlay">
+        <div class="popup-box">
+            <div class="popup-icon">⚠️</div>
+            <h2>Emergency Check</h2>
+            <p class="popup-question">Did you encounter an accident?</p>
+            <p class="popup-question">Do you require medical help?</p>
+            
+            <div class="timer-box">
+                <p>Time remaining: <span id="countdown">60</span> seconds</p>
+            </div>
+            
+            <div class="button-container">
+                <button id="yes-button" class="btn btn-yes">YES - I NEED HELP</button>
+                <button id="no-button" class="btn btn-no">NO - I'M FINE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Triggered Alert -->
+    <div id="emergency-triggered" class="emergency-screen">
+        <div class="emergency-box">
+            <div class="emergency-icon">🚨</div>
+            <h2>EMERGENCY ACTIVATED</h2>
+            <p>Help request has been sent!</p>
+            <p>Site 2 has been notified.</p>
+            <button id="close-emergency" class="btn btn-close">Close</button>
+        </div>
+    </div>
+
+    <script src="site1.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Emergency Display - Site 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Waiting State */
+        .waiting-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .waiting-content {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #667eea;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .waiting-content h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .waiting-content h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        
+        .status-line {
+            font-size: 1.3rem;
+            color: #555;
+            margin: 20px 0;
+        }
+        
+        .status-line span {
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .pulse-indicator {
+            width: 20px;
+            height: 20px;
+            background: #4caf50;
+            border-radius: 50%;
+            margin: 30px auto 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+        
+        /* Alert State */
+        .alert-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+        
+        .alert-container.show {
+            display: flex;
+            animation: alertAppear 0.5s ease;
+        }
+        
+        @keyframes alertAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .alert-content {
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            width: 90%;
+            padding: 40px;
+        }
+        
+        .alert-icon {
+            font-size: 8rem;
+            margin-bottom: 30px;
+            animation: alertPulse 1s infinite;
+        }
+        
+        @keyframes alertPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        
+        .alert-title {
+            font-size: 4rem;
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+        
+        .alert-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            border-radius: 20px;
+            border: 5px solid #ffeb3b;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .alert-box h2 {
+            font-size: 3rem;
+            color: #ffeb3b;
+            margin-bottom: 30px;
+        }
+        
+        .alert-box p {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .alert-time {
+            font-size: 1.5rem !important;
+            color: #ffeb3b;
+            margin-top: 30px !important;
+            font-weight: bold;
+        }
+        
+        .alert-footer {
+            margin-top: 30px;
+        }
+        
+        .alert-footer p {
+            font-size: 1.5rem;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .alert-title {
+                font-size: 2.5rem;
+            }
+            
+            .alert-box h2 {
+                font-size: 2rem;
+            }
+            
+            .alert-box p {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Waiting State -->
+    <div id="waitingScreen" class="waiting-container">
+        <div class="waiting-content">
+            <div class="loader"></div>
+            <h1>🏥 Hospital Emergency Display</h1>
+            <h2>Monitoring for Alerts...</h2>
+            <p class="status-line">Status: <span id="monitorStatus">Waiting for emergency signals</span></p>
+            <p class="status-line">This display will automatically show alerts from Site 1</p>
+            <div class="pulse-indicator"></div>
+        </div>
+    </div>
+    
+    <!-- Emergency Alert State -->
+    <div id="alertScreen" class="alert-container">
+        <div class="alert-content">
+            <div class="alert-icon">🚨</div>
+            <h1 class="alert-title">ACCIDENT DETECTED</h1>
+            <div class="alert-box">
+                <h2>⚠️ EMERGENCY ALERT ⚠️</h2>
+                <p>An accident has been reported!</p>
+                <p>FSR sensor detected significant impact</p>
+                <p>Medical assistance required immediately</p>
+                <p class="alert-time">Alert Time: <span id="alertTime"></span></p>
+            </div>
+            <div class="alert-footer">
+                <p>🚑 Emergency services have been notified</p>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="alertSound" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGS57OihUBELTKXh8bllHAU2jdXvzn0pBSh+zPDajzsKElyx6OyrWBQLSKHe8sFuIwUrgc7y2Yk2CBhkuezooVARDEyl4fG5ZRwFNo3V7859KQUofsz02o87ChJcsejtq1gVC0ih3vLBbiMFK4HO8tmJNggYZLns6KFQEQxMpeHxuWUcBTaN1e/OfSkFKH7M9NqPOwsSXLHo7atYFQtIod7ywW4jBSuBzvLZiTYIGGS57OihUBEMTKXh8bllHAU2jdXvzn0pBSh+zPTajzsKElyx6O2rWBULSKHe8sFuIwUrgc7y2Yk2CBhkuezooVARDEyl4fG5ZRwFNo3V7859KQUofsz02o87ChJcsejtq1gVC0ih3vLBbiMFK4HO8tmJNggYZLns6KFQEQxMpeHxuWUcBTaN1e/OfSkFKH7M9NqPOwsSXLHo7atYFQtIod7ywW4jBSuBzvLZiTYIGGS57OihUBEMTKXh8bllHAU2jdXvzn0pBSh+zPTajzsKElyx6O2rWBULSKHe8sFuIwUrgc7y2Yk2CBhkuezooVARDEyl4fG5ZRwFNo3V7859KQUofsz02o87ChJcsejtq1gVC0ih3vLBbiMFK4HO8tmJNggYZLns6KFQEQxMpeHxuWUcBTaN1e/OfSkFKH7M9NqPOwsSXLHo7atYFQtIod7ywW4jBSuBzvLZiTYIGGS57OihUBEMTKXh8bllHAU2jdXvzn0pBSh+zPTajzsKElyx6O2rWBULSKHe8sFuIwUrgc7y2Yk2CBhkuezooVARDEyl4fG5ZRwFNo3V7859KQUofsz02o87ChJcsejtq1gVC0ih3vLBbiMFK4HO8tmJNggYZLns6KFQEQxMpeHxuWUcBTaN1e/OfSkFKH7M9NqPOwsSXLHo7atYFQtIod7ywW4jBSuBzvLZiTYIGGS57OihUBEMTKXh8bllHAU2jdXvzn0pBSh+zPTajzsKElyx6O2rWBULSKHe8sFuIwUrgc7y2Yk2CBhkuezooVARDEyl4fG5ZRwFNo3V7859KQUofsz02o87ChJcsejtq1gVC0ih3vLBbiMFK4HO8tmJNggYZLns6KFQEQxMpeHxuWUcBTaN1e/OfSkFKH7M9NqPOwsSXLHo7atYFQtIod7ywW4jBQ==" type="audio/wav">
+    </audio>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="site2.js"></script>
+</body>
+</html>
